@@ -1,4 +1,2 @@
-IVI
-===
-
+* IVI
 Intelligent Virtual Interface
