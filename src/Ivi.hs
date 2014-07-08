@@ -9,8 +9,6 @@ import Constants
 
 main :: IO ()
 main = do
-    iviScriptsFile >>= putStrLn
-
     args <- getArgs
     
     -- Try to make out which script is meant.
