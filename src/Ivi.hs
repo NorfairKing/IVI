@@ -5,7 +5,7 @@ import System.Process (runCommand, waitForProcess)
 import System.Exit (exitWith)
 
 import Constants
-
+import TestScript
 
 main :: IO ()
 main = do
