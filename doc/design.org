@@ -21,3 +21,6 @@
 *** Command Recognition
     IVi is used directly using the command line.
     She is supposed to respond to regular sentences, as wel as specific commands.
+
+** Scripts
+
