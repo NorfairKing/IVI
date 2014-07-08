@@ -7,6 +7,8 @@ import System.Exit (exitWith)
 
 main :: IO ()
 main = do
+    testing
+
     args <- getArgs
     
     -- Try to make out which script is meant.
@@ -22,10 +24,11 @@ main = do
         Just scriptArgs -> putStrLn "placeholder"
 
 
+
 -- The datastructure that is given to run a script.
 data IVIScriptArgs = ScriptArgs
                         String -- Raw command
-                        String  -- Script name
+                        String -- Script name
 
 
 -- Try to make out which script is meant by the given arguments.

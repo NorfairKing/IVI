@@ -1,9 +1,5 @@
 * Technical Details
 ** Scripts
-   Scripts are located in the scripts directory.
-   They are, however, never included in the IVI repository.
-#+BEGIN_EXAMPLE
-IVI/scripts
-#+END_EXAMPLE
+   Scripts are never included in the IVI repository.
    Scripts are developped independently, based on the IVI API.
 
