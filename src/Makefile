@@ -1,5 +1,5 @@
 all:
-	ghc -Wall Ivi.hs -o ivi.bin
+	ghc -package ghc -Wall --make Ivi.hs -o ivi.bin
 	make clean
 
 clean:

@@ -10,3 +10,6 @@ data IVIScript = Script
 
 data IVIExitStatus = ExitSuccess 
                    | ExitFailure String
+
+
+executeScript path = return ()

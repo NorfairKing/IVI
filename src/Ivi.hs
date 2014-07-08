@@ -1,11 +1,11 @@
 module Main where
 
 import System.Environment (getArgs)
-import System.Process (runCommand, waitForProcess)
 import System.Exit (exitWith)
+import System.Process (runCommand, waitForProcess)
 
 import Constants
-import TestScript
+import Script
 
 main :: IO ()
 main = do
@@ -24,11 +24,6 @@ main = do
         Just scriptArgs -> putStrLn "placeholder"
 
 
-
--- The datastructure that is given to run a script.
-data IVIScriptArgs = ScriptArgs
-                        String -- Raw command
-                        String -- Script name
 
 
 -- Try to make out which script is meant by the given arguments.
