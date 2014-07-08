@@ -4,10 +4,12 @@ import System.Environment (getArgs)
 import System.Process (runCommand, waitForProcess)
 import System.Exit (exitWith)
 
+import Constants
+
 
 main :: IO ()
 main = do
-    testing
+    iviScriptsFile >>= putStrLn
 
     args <- getArgs
     
