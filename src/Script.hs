@@ -50,5 +50,16 @@ executeScript :: IVIScript -> IVIScriptArgs -> IO()
 executeScript script args = do
   r <- runInterpreter $ executeDynamic script args
   case r of
-      Left e -> putStrLn $ "woops... " ++ show e
+      -- Everything was fine!
       Right _ -> return ()
+                 
+      -- Something went wront
+      Left e -> case e of
+                  UnknownError str -> putStrLn $ "ERROR, something went wrong: " ++ str
+                  WontCompile errs -> putStrLn $ "ERROR, compilation errors: " ++  (unlines $ map toStr errs)
+                  NotAllowed str   -> putStrLn $ "ERROR, you are not allowed to do this: " ++ str	 
+                  GhcException str -> putStrLn $ "ERROR, something went wrong in ghc: " ++ str
+
+      where 
+        toStr :: GhcError -> String
+        toStr e = errMsg e
