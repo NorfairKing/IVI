@@ -32,4 +32,4 @@ main = do
 
 -- Try to make out which script is meant by the given arguments.
 recognise :: [String] -> Maybe IVIScriptArgs
-recognise args = Nothing -- ScriptArgs args scriptName
+recognise args = Nothing
