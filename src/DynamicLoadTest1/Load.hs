@@ -16,20 +16,13 @@ import Data.Dynamic (fromDyn)
 
 
 
--- |  List all exports of this module
---    and evaluate a symbol from a module DynTest 
 main :: IO ()
 main = 
   runGhc (Just libdir) $ do
-    -- putString ":::Display exports of modules:::"
     modSums <- initSession ["DynTest"]
-    --let thisModSum = head modSums
-    --exports <- listExports thisModSum
-    --mapM_ putString exports
 
-    -- putString ":::Evaluate a name from module DynTest:::"
-    importDecl_RdrName <- parseImportDecl "import DynTest as D"
-    setContext [IIDecl importDecl_RdrName]
+    importDecl_RdrName <- parseImportDecl "import Subpackage.Dyntest as D"
+    setContext [IIDecl $ simpleImportDecl (mkModuleName "Subpackage.Dyntest")]
     dynVal <- dynCompileExpr "D.aString"
     liftIO $ print $ (fromDyn dynVal "nope-nothing")
 
@@ -41,35 +34,13 @@ initSession modStrNames = do
   setSessionDynFlags $ dflags {
     hscTarget = HscInterpreted
     , ghcLink   = LinkInMemory
+    -- , importPaths = ["/home/syd/ivi/scripts/"]
     }
   targets <- mapM
               (\modStrName -> do
-               --putString modStrName
                   target <- guessTarget ("*"++modStrName++".hs") Nothing
                   return target
               ) modStrNames
   setTargets targets
   load LoadAllTargets
-  --modSums <- mapM
-  --            (\modStrName -> do
-  --                --putString modStrName
-  --                modSum <- getModSummary $ mkModuleName modStrName
-  --                return $ ms_mod modSum
-  --            ) modStrNames
-  --areturn modSums
 
-
--- | List exported names of this or a sibling module
-listExports :: GhcMonad m => Module -> m [String]
-listExports mod = do
-  maybeModInfo <- getModuleInfo mod
-  case maybeModInfo of
-    (Just modInfo) -> do
-      let expNames = modInfoExports modInfo
-          expStrNames = map getOccString expNames
-      return expStrNames
-    _ -> return []
-
--- | Util for printing
-putString :: String -> Ghc ()
-putString = liftIO . putStrLn

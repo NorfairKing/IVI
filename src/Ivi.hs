@@ -4,13 +4,16 @@ import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
 
+import Language.Haskell.Interpreter
+
 import Constants
 import Script
 
 main :: IO ()
-main = do
-    args <- getArgs
-    
+main = do    
+    testExecute
+
+    args <- getArgs         
     -- Try to make out which script is meant.
     case recognise args of
     
@@ -22,6 +25,7 @@ main = do
             
         -- Run the script that is recognised.
         Just scriptArgs -> putStrLn "placeholder"
+                           
 
 
 
