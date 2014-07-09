@@ -11,3 +11,5 @@ iviDirectory = getHomeDirectory >>= (\x -> return $ x </> iviDirname)
 iviScriptsFile = iviDirectory >>= (\x -> return $ x </> scriptsFileName)
     where scriptsFileName = "scripts" ++ "." ++ iviExtension
 
+iviScriptFunction = "execute"
+
