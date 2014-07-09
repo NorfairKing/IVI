@@ -4,9 +4,6 @@ import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
 
-import Language.Haskell.Interpreter
-
-import Constants
 import Script
 
 main :: IO ()
@@ -24,7 +21,7 @@ main = do
             exitWith exitcode
             
         -- Run the script that is recognised.
-        Just scriptArgs -> putStrLn "placeholder"
+        Just scriptArgs -> print scriptArgs
                            
 
 
@@ -32,4 +29,4 @@ main = do
 
 -- Try to make out which script is meant by the given arguments.
 recognise :: [String] -> Maybe IVIScriptArgs
-recognise args = Nothing
+recognise args = Just (Args (unwords args) "more")

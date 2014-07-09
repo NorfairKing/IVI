@@ -19,6 +19,7 @@ data IVIScript = Script
                      deriving (Show)
 
 -- TODO remove
+testExecute :: IO () 
 testExecute = executeScript (Script "TestScript" "/home/syd/ivi/scripts/TestScript.hs") (Args "heloo" "sweety")
 
 executeDynamic :: IVIScript -> IVIScriptArgs -> Interpreter ()
