@@ -6,13 +6,15 @@ import System.FilePath.Posix (takeExtension)
 scriptListFile :: FilePath
 scriptListFile = "ScriptsList.hs"
 
+-- | Execute IVI's bootstrap procedure
 main :: IO ()
 main = do
     candidates <- filterM isScriptDir =<< getDirectoryContents =<< getCurrentDirectory
     scripts <- mapM parseScriptDir candidates
-    joinList $ concat scripts
-
--- Determine whether the given path leads to a script directory
+    let fileContents = joinList $ concat scripts
+    writeFile scriptListFile fileContents    
+    
+-- | Determine whether the given path leads to a script directory
 isScriptDir :: FilePath -> IO Bool
 isScriptDir "."  = return False
 isScriptDir ".." = return False
@@ -24,14 +26,14 @@ isScriptDir dirName = do
         iviFiles <- getIviFiles dirName
         return $ (not . null) iviFiles
 
--- Get all ivi files in a given directory
+-- | Get all ivi files in a given directory
 getIviFiles :: FilePath -> IO [FilePath]
 getIviFiles dir = do
         dirContents <- getDirectoryContents dir
         let iviFiles = filter (\x -> takeExtension x == ".ivi") dirContents
         return iviFiles    
 
--- Parse all scripts in a script dir
+-- | Parse all scripts in a script dir
 parseScriptDir :: FilePath -> IO [(String, String)]
 parseScriptDir dir = do
     iviFiles <- getIviFiles dir
@@ -40,7 +42,7 @@ parseScriptDir dir = do
     putStrLn ""
     return scripts
 
--- Parse a script file into the necesary imports and entry
+-- | Parse a script file into the necesary imports and entry
 parseScript :: FilePath -> FilePath -> IO (String, String)
 parseScript scriptDir scriptFile = do
     cts <- readFile $ scriptDir </> scriptFile  
@@ -62,9 +64,9 @@ parseScript scriptDir scriptFile = do
             ++ show regexes 
             )
 
-
-joinList :: [(String, String)] -> IO()
-joinList scripts = writeFile scriptListFile contents
+-- | Join the imports and entries into the final source file.
+joinList :: [(String, String)] -> String
+joinList scripts = contents
     where 
         (imports,entries) = unzip scripts
         

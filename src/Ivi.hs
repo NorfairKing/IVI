@@ -8,6 +8,7 @@ import Text.Regex.Posix ((=~))
 import Script
 import Scripts.ScriptsList (scripts)
 
+-- | Run IVI
 main :: IO ()
 main = do    
     args <- getArgs         
@@ -26,7 +27,7 @@ main = do
 
 
 
--- Try to make out which script is meant by the given arguments.
+-- | Try to make out which script is meant by the given arguments.
 recognise :: [String] -> Maybe IVIScript
 recognise [] = Nothing
 recognise args = do
@@ -39,7 +40,7 @@ recognise args = do
         findByRegex = find (\(Script _ _ regexes) -> unwords args `matchesAnyOf` regexes) scripts
         matchesAnyOf str = any (str =~)
 
--- Execute the script given by its name
+-- | Execute the script given by its name
 executeScript :: IVIScript -> IVIScriptArgs -> IO ()
 executeScript (Script _ exec _) args = do
     result <- exec args
