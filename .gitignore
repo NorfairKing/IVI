@@ -1,5 +1,6 @@
 ivi
 scripts/
+doc/
 
 dist
 cabal-dev

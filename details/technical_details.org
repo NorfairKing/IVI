@@ -1,0 +1,26 @@
+* Technical Details
+** Scripts
+   Scripts are never included in the IVI repository.
+   Scripts are developped independently, based on the IVI API.
+
+   A script consists of the following elements
+
+#+BEGIN_EXAMPLE
+ScriptDirectory
+|- script.ivi
+|- Script.hs
+#+END_EXAMPLE
+
+*** Script Directory
+    Prerequisites
+    - The script directory name *must* start with a capital letter.
+    
+    Notes
+    - The script directory name should use Pascal casing.
+      example:
+#+BEGIN_EXAMPLE
+AVeryLongScriptDirectoryNameExample
+#+END_EXAMPLE
+
+*** Source file
+    Each IVI
