@@ -1,7 +1,7 @@
+import Control.Monad (filterM)
+import System.Directory (getCurrentDirectory, getDirectoryContents, doesDirectoryExist)
 import System.FilePath ((</>))
 import System.FilePath.Posix (takeExtension)
-import System.Directory (getCurrentDirectory, getDirectoryContents, doesDirectoryExist)
-import Control.Monad (filterM)
 
 scriptListFile :: FilePath
 scriptListFile = "ScriptsList.hs"
@@ -9,8 +9,8 @@ scriptListFile = "ScriptsList.hs"
 main :: IO ()
 main = do
     candidates <- filterM isScriptDir =<< getDirectoryContents =<< getCurrentDirectory
-    scripts <- mapM strapScript candidates
-    joinList scripts
+    scripts <- mapM parseScriptDir candidates
+    joinList $ concat scripts
 
 -- Determine whether the given path leads to a script directory
 isScriptDir :: FilePath -> IO Bool
@@ -21,52 +21,53 @@ isScriptDir dirName = do
     if not isdir
     then return False
     else do
-        dirContents <- getDirectoryContents dirName
-        let stuff = filter (\x -> takeExtension x == ".ivi") dirContents
-        print stuff
-        return True
+        iviFiles <- getIviFiles dirName
+        return $ length iviFiles >= 1 
 
-
-
-strapScript :: FilePath -> IO (String, String)
-strapScript dir = do 
-    iviFile <- getIviFile dir
-    case iviFile of
-        Nothing -> return ("","")
-        Just file -> parse dir file
-                
-
-getIviFile :: FilePath -> IO (Maybe FilePath)
-getIviFile dir = do
-    isDir <- doesDirectoryExist dir
-    if isDir
-    then do
+-- Get all ivi files in a given directory
+getIviFiles :: FilePath -> IO ([FilePath])
+getIviFiles dir = do
         dirContents <- getDirectoryContents dir
-        return $ Just (dir </> "script.ivi")
-    else
-        return $ Nothing
+        let iviFiles = filter (\x -> takeExtension x == ".ivi") dirContents
+        return iviFiles    
 
-parse :: FilePath -> FilePath -> IO (String, String)
-parse dir iviFile = do
-    cts <- readFile iviFile  
+-- Parse all scripts in a script dir
+parseScriptDir :: FilePath -> IO [(String, String)]
+parseScriptDir dir = do
+    iviFiles <- getIviFiles dir
+    mapM (parseScript dir) iviFiles
+
+-- Parse a script file into the necesary imports and entry
+parseScript :: FilePath -> FilePath -> IO (String, String)
+parseScript scriptDir scriptFile = do
+    cts <- readFile $ scriptDir </> scriptFile  
     let ls = lines cts
     let [scriptFileName, name, function] = ls
     return (
-            "import Scripts." ++ dir ++ "." ++ scriptFileName
-            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" " ++ function ++ ")"
+            "import Scripts." ++ scriptDir ++ "." ++ scriptFileName
+            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function ++ ")"
             )
+    where
+
 
 joinList :: [(String, String)] -> IO()
 joinList scripts = do
     writeFile scriptListFile contents
     where 
-        imports = filter (not.null) $ map fst scripts          
-        entries = map prependIndentation $ filter (not.null) $ map snd scripts
-        prependIndentation str = "            " ++ str
-        contents = "module Scripts.ScriptsList where\n"
+        (imports,entries) = unzip scripts
+        
+        fix [] = ""
+        fix [e] = "              " ++ e ++ "\n"
+        fix (e:es) = fix es ++ "            , " ++ e ++ "\n"
+        
+        contents = "-- This file is generated, there is no use in modifying it directly\n"
+                ++ "-- Please just make sure the .ivi files are in order\n"
+                ++ "module Scripts.ScriptsList where\n"
                 ++ "import Script\n"
                 ++ unlines imports
+                ++ "\n"
                 ++ "scripts :: [(String, IVIScript)] \n"
                 ++ "scripts = [\n"
-                ++ unlines entries
+                ++ fix entries
                 ++ "          ]\n"
+
