@@ -3,9 +3,8 @@ module Main where
 import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
-import Data.Maybe (fromJust)
 
-import Script
+import Scripts.ScriptsList
 
 main :: IO ()
 main = do    

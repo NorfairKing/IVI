@@ -8,8 +8,7 @@ data IVIScriptArgs = Args
 
 data IVIScript = Script
                     String -- Script name
-                    FilePath -- Script dir
-                     deriving (Show)
+                    (IVIScriptArgs -> IO IVIScriptResult)-- execute function
 
 data IVIScriptResult = Success
                         | Failure String -- Description of what went wrong
