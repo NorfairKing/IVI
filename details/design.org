@@ -1,0 +1,24 @@
+* Design
+** Main principles
+   - Intelligence
+
+     IVI is not intelligent, but she simulates the recognition of natural language to interface with her scripts.
+   
+   - Modularity
+  
+     IVI is designed to be modular. Nothing should ever break if a component is upgraded.
+
+   - Scripts
+    
+     Most of IVI's functionality comes from her scripts.
+     She is therefor designed so that new scripts can be easily added on.
+
+   - Documentation and testing
+   
+     IVI is extensively documented and tested.
+
+** Features
+*** Command Recognition
+    IVi is used directly using the command line.
+    She is supposed to respond to regular sentences, as wel as specific commands.
+

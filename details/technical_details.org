@@ -1,0 +1,53 @@
+* Technical Details
+** Scripts
+   Scripts are never included in the IVI repository.
+   Scripts are developped independently, based on the IVI API.
+
+   A script consists of the following elements
+
+#+BEGIN_EXAMPLE
+ScriptDirectory
+|- script.ivi
+|- Script.hs
+#+END_EXAMPLE
+
+*** Script Directory
+    - The script directory name *must* start with a capital letter.
+    - The script directory name should use Pascal casing.
+      example:
+#+BEGIN_EXAMPLE
+AVeryLongScriptDirectoryNameExample
+#+END_EXAMPLE
+
+*** IVI file
+    - A script directory *must* contain *at least one* '.ivi' file, containing the script configuration
+    - There can be more than one '.ivi' files, one for every function to execute.
+      In this way, multiple scripts can be packaged into one directory.
+
+    A '.ivi' file is structure in the following way:
+#+BEGIN_EXAMPLE
+SourceFileName
+scriptname
+executeFunction
+regex1
+regex2
+regex3
+#+END_EXAMPLE
+    - SourceFileName: the name of the source code file where the execute function is located (Pascal Casing)
+    - scriptname: the name of the script (lowercase with underscores)
+    - executeFunction: the name of the function to execute at script entry (camelCasing)
+    - regex1,...: the list of regexes from which the script can be recognised. (one regex per line)
+
+*** Source file
+    Any source file in the IVI script directory must have the following lines:
+#+BEGIN_EXAMPLE
+module Scripts.ScriptDirectory.SourceFileName where
+import Script
+#+END_EXAMPLE
+
+    The source file described in the '.ivi' file must contain a function as described by the 'executeFunction' line.
+    This function *must* have the following signature:
+#+BEGIN_EXAMPLE
+execute :: IVIScriptArgs -> IO IVIScriptResult
+execute args = ...
+#+END_EXAMPLE
