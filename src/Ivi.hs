@@ -3,13 +3,12 @@ module Main where
 import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
+import Data.Maybe (fromJust)
 
 import Script
 
 main :: IO ()
 main = do    
-    testExecute
-
     args <- getArgs         
     -- Try to make out which script is meant.
     case recognise args of
@@ -29,4 +28,4 @@ main = do
 
 -- Try to make out which script is meant by the given arguments.
 recognise :: [String] -> Maybe IVIScriptArgs
-recognise args = Just (Args (unwords args) "more")
+recognise args = Nothing -- Just (Args $ unwords args)
