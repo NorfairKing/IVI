@@ -2,8 +2,8 @@ module Main where
 
 import Data.List (find)
 import System.Environment (getArgs)
-import System.Exit (exitWith)
-import System.Process (runCommand, waitForProcess)
+import System.Exit (exitSuccess,exitFailure)
+import Text.Regex.Posix ((=~))
 
 import Script
 import Scripts.ScriptsList (scripts)
@@ -14,33 +14,38 @@ main = do
     -- Try to make out which script is meant.
     case recognise args of
     
-        -- Run the arguments as a shell command if no script is recognised.
+        -- Do nothing when no command is recognised.
         Nothing -> do
-            phandle <- runCommand $ unwords args
-            exitcode <- waitForProcess phandle
-            exitWith exitcode
+            putStrLn "Command not recognised."
+            exitFailure
             
         -- Run the script that is recognised.
         Just name -> do
             let scrargs = Args $ unwords args
             executeScript name scrargs
-                           
-
 
 
 
 -- Try to make out which script is meant by the given arguments.
-recognise :: [String] -> Maybe String
-recognise args = Just $ head args -- Just (Args $ unwords args)
+recognise :: [String] -> Maybe IVIScript
+recognise [] = Nothing
+recognise args = do
+    let scriptByName = findByName
+    case scriptByName of
+        Just _ -> scriptByName
+        Nothing -> findByRegex
+    where
+        findByName = find (\(Script name _ _) -> name == head args) scripts
+        findByRegex = find (\(Script _ _ regexes) -> unwords args `matchesAnyOf` regexes) scripts
+        matchesAnyOf str = any (str =~)
 
-executeScript :: String -> IVIScriptArgs -> IO ()
-executeScript name args = do
-    let mscript = find (\(n,_,_) -> n == name) scripts
-    case mscript of
-        Nothing -> putStrLn "something went wrong"
-        Just (_,(Script name exec _),_) -> do
-            result <- exec args
-            case result of
-                Success -> putStrLn "yeah"
-                Failure str -> putStrLn $ "nope: " ++ str
+-- Execute the script given by its name
+executeScript :: IVIScript -> IVIScriptArgs -> IO ()
+executeScript (Script _ exec _) args = do
+    result <- exec args
+    case result of
+        Success -> exitSuccess
+        Failure str -> do
+            putStrLn $ "ERROR: " ++ str
+            exitFailure
 

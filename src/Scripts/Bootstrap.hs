@@ -22,10 +22,10 @@ isScriptDir dirName = do
     then return False
     else do
         iviFiles <- getIviFiles dirName
-        return $ length iviFiles >= 1 
+        return $ (not . null) iviFiles
 
 -- Get all ivi files in a given directory
-getIviFiles :: FilePath -> IO ([FilePath])
+getIviFiles :: FilePath -> IO [FilePath]
 getIviFiles dir = do
         dirContents <- getDirectoryContents dir
         let iviFiles = filter (\x -> takeExtension x == ".ivi") dirContents
@@ -37,7 +37,7 @@ parseScriptDir dir = do
     iviFiles <- getIviFiles dir
     putStrLn dir
     scripts <- mapM (parseScript dir) iviFiles
-    putStrLn $ ""
+    putStrLn ""
     return scripts
 
 -- Parse a script file into the necesary imports and entry
@@ -54,20 +54,17 @@ parseScript scriptDir scriptFile = do
             ++ "." 
             ++ scriptFileName
             , 
-               "("
-            ++ "\""
-            ++ name
-            ++ "\""
-            ++ ", "
-            ++ "Script \"" ++ name ++ "\" Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function ++ " " ++ show regexes
-            ++ ", "
-            ++ show regexes
-            ++ ")")
+               "Script " 
+            ++ show name 
+            ++ " "
+            ++ "Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function 
+            ++ " " 
+            ++ show regexes 
+            )
 
 
 joinList :: [(String, String)] -> IO()
-joinList scripts = do
-    writeFile scriptListFile contents
+joinList scripts = writeFile scriptListFile contents
     where 
         (imports,entries) = unzip scripts
         
@@ -81,7 +78,7 @@ joinList scripts = do
                 ++ "import Script\n"
                 ++ unlines imports
                 ++ "\n"
-                ++ "scripts :: [(String, IVIScript, [String])] \n"
+                ++ "scripts :: [IVIScript] \n"
                 ++ "scripts = [\n"
                 ++ fix entries
                 ++ "          ]\n"
