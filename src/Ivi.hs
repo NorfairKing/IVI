@@ -4,7 +4,8 @@ import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
 
-import Scripts.ScriptsList
+import Script
+import Scripts.ScriptsList (scripts)
 
 main :: IO ()
 main = do    
@@ -19,12 +20,26 @@ main = do
             exitWith exitcode
             
         -- Run the script that is recognised.
-        Just scriptArgs -> print scriptArgs
+        Just name -> do
+            let scrargs = Args $ unwords args
+            executeScript name scrargs
                            
 
 
 
 
 -- Try to make out which script is meant by the given arguments.
-recognise :: [String] -> Maybe IVIScriptArgs
-recognise args = Nothing -- Just (Args $ unwords args)
+recognise :: [String] -> Maybe String
+recognise args = Just $ head args -- Just (Args $ unwords args)
+
+executeScript :: String -> IVIScriptArgs -> IO ()
+executeScript name args = do
+    let mscript = lookup name scripts
+    case mscript of
+        Nothing -> putStrLn "something went wrong"
+        Just (Script _ exec) -> do
+            result <- exec args
+            case result of
+                Success -> putStrLn "yeah"
+                Failure str -> putStrLn $ "nope: " ++ str
+

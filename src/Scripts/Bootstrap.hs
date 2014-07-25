@@ -32,6 +32,7 @@ joinList scripts = do
         contents = "module Scripts.ScriptsList where\n"
                 ++ "import Script\n"
                 ++ unlines imports
+                ++ "scripts :: [(String, IVIScript)] \n"
                 ++ "scripts = [\n"
                 ++ unlines entries
                 ++ "          ]\n"
@@ -57,5 +58,5 @@ parse dir iviFile = do
     let [scriptFileName, name, function] = ls
     return (
             "import Scripts." ++ dir ++ "." ++ scriptFileName
-            , "Script \"" ++ name ++ "\" " ++ function
+            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" " ++ function ++ ")"
             )

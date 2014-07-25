@@ -1,6 +1,7 @@
 module Scripts.ScriptsList where
 import Script
 import Scripts.TestScript.TestScript
+scripts :: [(String, IVIScript)] 
 scripts = [
-            Script "name" execute
+            ("name", Script "name" execute)
           ]
