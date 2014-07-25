@@ -36,11 +36,32 @@ getIviFiles dir = do
 -- | Parse all scripts in a script dir
 parseScriptDir :: FilePath -> IO [(String, String)]
 parseScriptDir dir = do
-    iviFiles <- getIviFiles dir
-    putStrLn dir
-    scripts <- mapM (parseScript dir) iviFiles
-    putStrLn ""
-    return scripts
+    scriptVersion <- readFile $ dir </> "VERSION"
+    iviVersion <- readFile $  ".." </> ".." </> "VERSION"
+    if checkVersion scriptVersion iviVersion
+    then do
+        iviFiles <- getIviFiles dir  
+        putStrLn dir   
+        scripts <- mapM (parseScript dir) iviFiles
+        putStrLn ""    
+        return scripts    
+    else do 
+        putStrLn $ "Not adding scripts in " ++ dir ++ "because the ivi versions aren't compatible"
+        return []
+
+checkVersion :: String -> String -> Bool
+checkVersion sv iv = 
+    sa == ia && sb == ib && ic >= sc
+    where
+        (sa,sb,sc,_) = stripVersion sv
+        (ia,ib,ic,_) = stripVersion iv 
+
+stripVersion :: String -> (String, String, String, String)
+stripVersion str = (\[a,b,c,d] -> (a,b,c,d)) $ go str [] []
+    where
+        go [] acc accs = accs ++ [acc]
+        go ('.':vs) acc accs = go vs [] (accs ++ [acc])
+        go ( c :vs) acc accs = go vs (acc ++ [c]) accs
 
 -- | Parse a script file into the necesary imports and entry
 parseScript :: FilePath -> FilePath -> IO (String, String)
