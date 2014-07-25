@@ -1,27 +1,61 @@
-import Data.List (isPrefixOf)
 import System.FilePath ((</>))
+import System.FilePath.Posix (takeExtension)
 import System.Directory (getCurrentDirectory, getDirectoryContents, doesDirectoryExist)
+import Control.Monad (filterM)
 
 scriptListFile :: FilePath
 scriptListFile = "ScriptsList.hs"
 
 main :: IO ()
 main = do
-    here <- getCurrentDirectory
-    contents <- getDirectoryContents here
-    let candidates = filter strapCondition contents
-    scripts <- mapM strap candidates
+    candidates <- filterM isScriptDir =<< getDirectoryContents =<< getCurrentDirectory
+    scripts <- mapM strapScript candidates
     joinList scripts
 
-strap :: FilePath -> IO (String, String)
-strap dir = do 
+-- Determine whether the given path leads to a script directory
+isScriptDir :: FilePath -> IO Bool
+isScriptDir "."  = return False
+isScriptDir ".." = return False
+isScriptDir dirName = do
+    isdir <- doesDirectoryExist dirName
+    if not isdir
+    then return False
+    else do
+        dirContents <- getDirectoryContents dirName
+        let stuff = filter (\x -> takeExtension x == ".ivi") dirContents
+        print stuff
+        return True
+
+
+
+strapScript :: FilePath -> IO (String, String)
+strapScript dir = do 
     iviFile <- getIviFile dir
     case iviFile of
         Nothing -> return ("","")
         Just file -> parse dir file
                 
 
-                
+getIviFile :: FilePath -> IO (Maybe FilePath)
+getIviFile dir = do
+    isDir <- doesDirectoryExist dir
+    if isDir
+    then do
+        dirContents <- getDirectoryContents dir
+        return $ Just (dir </> "script.ivi")
+    else
+        return $ Nothing
+
+parse :: FilePath -> FilePath -> IO (String, String)
+parse dir iviFile = do
+    cts <- readFile iviFile  
+    let ls = lines cts
+    let [scriptFileName, name, function] = ls
+    return (
+            "import Scripts." ++ dir ++ "." ++ scriptFileName
+            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" " ++ function ++ ")"
+            )
+
 joinList :: [(String, String)] -> IO()
 joinList scripts = do
     writeFile scriptListFile contents
@@ -36,27 +70,3 @@ joinList scripts = do
                 ++ "scripts = [\n"
                 ++ unlines entries
                 ++ "          ]\n"
-
-strapCondition :: FilePath -> Bool
-strapCondition fileName = not $ "." `isPrefixOf` fileName
-
-getIviFile :: FilePath -> IO (Maybe FilePath)
-getIviFile dir = do
-    isDir <- doesDirectoryExist dir
-    if isDir
-    then do
-        dirContents <- getDirectoryContents dir
-        putStrLn $ unlines dirContents
-        return $ Just (dir </> "script.ivi")
-    else
-        return $ Nothing
-
-parse :: FilePath -> FilePath -> IO (String, String)
-parse dir iviFile = do
-    cts <- readFile iviFile  
-    let ls = lines cts
-    let [scriptFileName, name, function] = ls
-    return (
-            "import Scripts." ++ dir ++ "." ++ scriptFileName
-            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" " ++ function ++ ")"
-            )
