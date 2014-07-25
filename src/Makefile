@@ -1,5 +1,11 @@
+.PHONY: Scripts
 all:
-	ghc -package ghc -Wall --make Ivi.hs -o ivi.bin
+	$(MAKE) -C Scripts bootstrap
+	ghc -Wall --make Ivi.hs -o ivi.bin
+	make clean
+
+verbose:
+	ghc -v -Wall --make Ivi.hs -o ivi.bin
 	make clean
 
 clean:

@@ -1,32 +1,52 @@
 module Main where
 
+import Data.List (find)
 import System.Environment (getArgs)
-import System.Exit (exitWith)
-import System.Process (runCommand, waitForProcess)
+import System.Exit (exitSuccess,exitFailure)
+import Text.Regex.Posix ((=~))
 
 import Script
+import Scripts.ScriptsList (scripts)
 
+-- | Run IVI
 main :: IO ()
 main = do    
-    testExecute
-
     args <- getArgs         
     -- Try to make out which script is meant.
     case recognise args of
     
-        -- Run the arguments as a shell command if no script is recognised.
+        -- Do nothing when no command is recognised.
         Nothing -> do
-            phandle <- runCommand $ unwords args
-            exitcode <- waitForProcess phandle
-            exitWith exitcode
+            putStrLn "Command not recognised."
+            exitFailure
             
         -- Run the script that is recognised.
-        Just scriptArgs -> print scriptArgs
-                           
+        Just name -> do
+            let scrargs = Args $ unwords args
+            executeScript name scrargs
 
 
 
+-- | Try to make out which script is meant by the given arguments.
+recognise :: [String] -> Maybe IVIScript
+recognise [] = Nothing
+recognise args = do
+    let scriptByName = findByName
+    case scriptByName of
+        Just _ -> scriptByName
+        Nothing -> findByRegex
+    where
+        findByName = find (\(Script name _ _) -> name == head args) scripts
+        findByRegex = find (\(Script _ _ regexes) -> unwords args `matchesAnyOf` regexes) scripts
+        matchesAnyOf str = any (str =~)
 
--- Try to make out which script is meant by the given arguments.
-recognise :: [String] -> Maybe IVIScriptArgs
-recognise args = Just (Args (unwords args) "more")
+-- | Execute the script given by its name
+executeScript :: IVIScript -> IVIScriptArgs -> IO ()
+executeScript (Script _ exec _) args = do
+    result <- exec args
+    case result of
+        Success -> exitSuccess
+        Failure str -> do
+            putStrLn $ "ERROR: " ++ str
+            exitFailure
+

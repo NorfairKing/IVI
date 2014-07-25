@@ -1,0 +1,6 @@
+TestScript
+test1
+execute
+regex ?(quux)?
+regex2
+regex3
