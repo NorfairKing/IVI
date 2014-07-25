@@ -1,5 +1,6 @@
 module Main where
 
+import Data.List (find)
 import System.Environment (getArgs)
 import System.Exit (exitWith)
 import System.Process (runCommand, waitForProcess)
@@ -34,10 +35,10 @@ recognise args = Just $ head args -- Just (Args $ unwords args)
 
 executeScript :: String -> IVIScriptArgs -> IO ()
 executeScript name args = do
-    let mscript = lookup name scripts
+    let mscript = find (\(n,_,_) -> n == name) scripts
     case mscript of
         Nothing -> putStrLn "something went wrong"
-        Just (Script _ exec) -> do
+        Just (_,(Script name exec _),_) -> do
             result <- exec args
             case result of
                 Success -> putStrLn "yeah"

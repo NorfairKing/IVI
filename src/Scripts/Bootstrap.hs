@@ -45,13 +45,24 @@ parseScript :: FilePath -> FilePath -> IO (String, String)
 parseScript scriptDir scriptFile = do
     cts <- readFile $ scriptDir </> scriptFile  
     let ls = lines cts
-    let [scriptFileName, name, function] = ls
+    let scriptFileName: name: function: regexes = ls
     putStrLn $ "|- " ++ name
-    return (
-            "import Scripts." ++ scriptDir ++ "." ++ scriptFileName
-            , "(\""++ name ++ "\", Script \"" ++ name ++ "\" Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function ++ ")"
-            )
-    where
+    return ("import " 
+            ++ "Scripts" 
+            ++ "."
+            ++ scriptDir 
+            ++ "." 
+            ++ scriptFileName
+            , 
+               "("
+            ++ "\""
+            ++ name
+            ++ "\""
+            ++ ", "
+            ++ "Script \"" ++ name ++ "\" Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function ++ " " ++ show regexes
+            ++ ", "
+            ++ show regexes
+            ++ ")")
 
 
 joinList :: [(String, String)] -> IO()
@@ -70,7 +81,7 @@ joinList scripts = do
                 ++ "import Script\n"
                 ++ unlines imports
                 ++ "\n"
-                ++ "scripts :: [(String, IVIScript)] \n"
+                ++ "scripts :: [(String, IVIScript, [String])] \n"
                 ++ "scripts = [\n"
                 ++ fix entries
                 ++ "          ]\n"

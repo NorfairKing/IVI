@@ -9,6 +9,7 @@ data IVIScriptArgs = Args
 data IVIScript = Script
                     String -- Script name
                     (IVIScriptArgs -> IO IVIScriptResult)-- execute function
+                    [String] -- Regexes
 
 data IVIScriptResult = Success
                         | Failure String -- Description of what went wrong
