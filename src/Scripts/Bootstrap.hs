@@ -35,7 +35,10 @@ getIviFiles dir = do
 parseScriptDir :: FilePath -> IO [(String, String)]
 parseScriptDir dir = do
     iviFiles <- getIviFiles dir
-    mapM (parseScript dir) iviFiles
+    putStrLn dir
+    scripts <- mapM (parseScript dir) iviFiles
+    putStrLn $ ""
+    return scripts
 
 -- Parse a script file into the necesary imports and entry
 parseScript :: FilePath -> FilePath -> IO (String, String)
@@ -43,6 +46,7 @@ parseScript scriptDir scriptFile = do
     cts <- readFile $ scriptDir </> scriptFile  
     let ls = lines cts
     let [scriptFileName, name, function] = ls
+    putStrLn $ "|- " ++ name
     return (
             "import Scripts." ++ scriptDir ++ "." ++ scriptFileName
             , "(\""++ name ++ "\", Script \"" ++ name ++ "\" Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function ++ ")"
