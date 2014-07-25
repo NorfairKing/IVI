@@ -3,6 +3,7 @@ all:
 	make bootstrap
 	make bare
 	make documentation
+	make clean
 
 bootstrap:
 	$(MAKE) -C Scripts bootstrap
@@ -12,10 +13,6 @@ bare:
 
 documentation:
 	haddock --html -o ../doc Ivi.hs
-
-verbose:
-	ghc -v -Wall --make Ivi.hs -o ivi.bin
-	make clean
 
 clean:
 	rm -f *.o *.hi

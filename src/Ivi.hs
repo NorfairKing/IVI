@@ -1,4 +1,15 @@
-module Main where
+{-|
+Module      : Main
+Description : IVI, the main module
+-}
+module Main (
+    -- * Main function
+      main
+    -- ** Recognition
+    , recognize
+    -- ** Execution
+    , executeScript
+    ) where
 
 import Data.List (find)
 import System.Environment (getArgs)
@@ -13,11 +24,11 @@ main :: IO ()
 main = do    
     args <- getArgs         
     -- Try to make out which script is meant.
-    case recognise args of
+    case recognize args of
     
         -- Do nothing when no command is recognised.
         Nothing -> do
-            putStrLn "Command not recognised."
+            putStrLn "Command not recognized."
             exitFailure
             
         -- Run the script that is recognised.
@@ -28,9 +39,10 @@ main = do
 
 
 -- | Try to make out which script is meant by the given arguments.
-recognise :: [String] -> Maybe IVIScript
-recognise [] = Nothing
-recognise args = do
+recognize :: [String] -- ^ The bare command-line arguments
+          -> Maybe IVIScript -- ^ Either the recognised script, or nothing
+recognize [] = Nothing
+recognize args = do
     let scriptByName = findByName
     case scriptByName of
         Just _ -> scriptByName
@@ -41,7 +53,9 @@ recognise args = do
         matchesAnyOf str = any (str =~)
 
 -- | Execute the script given by its name
-executeScript :: IVIScript -> IVIScriptArgs -> IO ()
+executeScript :: IVIScript -- ^ The script to execute
+              -> IVIScriptArgs -- ^ The arguments to the script
+              -> IO ()
 executeScript (Script _ exec _) args = do
     result <- exec args
     case result of

@@ -74,12 +74,17 @@ joinList scripts = contents
         fix [e] = "              " ++ e ++ "\n"
         fix (e:es) = fix es ++ "            , " ++ e ++ "\n"
         
-        contents = "-- This file is generated, there is no use in modifying it directly\n"
-                ++ "-- Please just make sure the .ivi files are in order\n"
+        contents = "{-|\n"
+                ++ "Module      : ScriptsList\n"
+                ++ "Description : The list of scripts that can be used\n"
+                ++ "This file is generated, there is no use in modifying it directly\n"
+                ++ "Please just make sure the .ivi files are in order.\n"
+                ++ "-}\n"
                 ++ "module Scripts.ScriptsList where\n"
                 ++ "import Script\n"
                 ++ unlines imports
                 ++ "\n"
+                ++ "-- | The list of scripts"
                 ++ "scripts :: [IVIScript] \n"
                 ++ "scripts = [\n"
                 ++ fix entries

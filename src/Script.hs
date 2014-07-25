@@ -1,15 +1,34 @@
-module Script where
+{-|
+Module      : Script
+Description : All script functionality
+-}
+module Script (
+    -- * Data structures
+      IVIScriptArgs(..)
+    , IVIScript(..)
+    , IVIScriptResult(..)
+    ) where
 
-data IVIScriptArgs = Args
-                        String -- Raw command
+-- | IVI script arguments
+data IVIScriptArgs = 
+    -- | Script arguments consist of the raw command (currently) 
+    Args
+    String -- Raw command
     deriving (Show)
 
-data IVIScript = Script
-                    String -- Script name
-                    (IVIScriptArgs -> IO IVIScriptResult)-- execute function
-                    [String] -- Regexes
+-- | IVI script
+data IVIScript = 
+    -- | Scripts consist of their name, the function to enter and the regexes to match
+    Script
+        String -- Script name
+        (IVIScriptArgs -> IO IVIScriptResult)-- execute function
+        [String] -- Regexes
 
-data IVIScriptResult = Success
-                        | Failure String -- Description of what went wrong
+-- | IVI script result
+data IVIScriptResult
+    -- | The script executed with success.
+    = Success
+    -- | The script executed with (an) error(s).
+    | Failure String -- Description of what went wrong
     deriving (Show)
 
