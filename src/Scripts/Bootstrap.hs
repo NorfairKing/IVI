@@ -1,7 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 import Control.Monad (filterM)
 import System.Directory (getCurrentDirectory, getDirectoryContents, doesDirectoryExist)
 import System.FilePath ((</>))
 import System.FilePath.Posix (takeExtension)
+
+
+import Data.Configurator as C (Worth (..), load, lookup)
 
 scriptListFile :: FilePath
 scriptListFile = "ScriptsList.hs"
@@ -14,6 +19,26 @@ main = do
     let fileContents = joinList $ concat scripts
     writeFile scriptListFile fileContents    
     
+{-
+    Data structure for a '.ivi' file
+-}
+data IVIConfig = Config { sourceFileName :: String
+                        , name :: String
+                        , executeFunctionName :: String
+                        , regexes :: [String]
+                        }
+    deriving (Show)
+
+getIVIConfig :: FilePath -> IO IVIConfig
+getIVIConfig file = do
+    cfg <- C.load [Required file]
+    Just sfn <- C.lookup cfg "sourceFileName"
+    Just n <- C.lookup cfg "name"
+    Just fn <- C.lookup cfg "executeFunctionName"
+    Just rs <- C.lookup cfg "regexes"
+    return Config { sourceFileName = sfn, name = n, executeFunctionName = fn, regexes = rs }    
+
+
 -- | Determine whether the given path leads to a script directory
 isScriptDir :: FilePath -> IO Bool
 isScriptDir "."  = return False
@@ -26,7 +51,7 @@ isScriptDir dirName = do
         iviFiles <- getIviFiles dirName
         return $ (not . null) iviFiles
 
--- | Get all ivi files in a given directory
+-- | Get all paths to ivi files in a given directory
 getIviFiles :: FilePath -> IO [FilePath]
 getIviFiles dir = do
         dirContents <- getDirectoryContents dir
@@ -67,24 +92,27 @@ stripVersion str = (\[a,b,c,d] -> (a,b,c,d)) $ go str [] []
 
 -- | Parse a script file into the necesary imports and entry
 parseScript :: FilePath -> FilePath -> IO (String, String)
-parseScript scriptDir scriptFile = do
-    cts <- readFile $ scriptDir </> scriptFile  
-    let ls = lines cts
-    let scriptFileName: name: function: regexes = ls
-    putStrLn $ "|- " ++ name
+parseScript scriptDir iviFile = do
+    cfg <- getIVIConfig $ scriptDir </> iviFile
+    putStrLn $ "|- " ++ name cfg
     return ("import " 
             ++ "Scripts" 
             ++ "."
             ++ scriptDir 
             ++ "." 
-            ++ scriptFileName
+            ++ sourceFileName cfg
             , 
                "Script " 
-            ++ show name 
+            ++ show (name cfg)
             ++ " "
-            ++ "Scripts." ++ scriptDir ++ "." ++ scriptFileName ++ "." ++ function 
+            ++ "Scripts."
+            ++ scriptDir 
+            ++ "." 
+            ++ sourceFileName cfg 
+            ++ "." 
+            ++ executeFunctionName cfg
             ++ " " 
-            ++ show regexes 
+            ++ show (regexes cfg)
             )
 
 -- | Join the imports and entries into the final source file.
@@ -107,7 +135,7 @@ joinList scripts = contents
                 ++ "import Script\n"
                 ++ unlines imports
                 ++ "\n"
-                ++ "-- | The list of scripts"
+                ++ "-- | The list of scripts\n"
                 ++ "scripts :: [IVIScript] \n"
                 ++ "scripts = [\n"
                 ++ fix entries
