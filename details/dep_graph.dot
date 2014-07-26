@@ -1,0 +1,74 @@
+digraph G {
+    ivilink [label="ivi"];
+
+    subgraph cluster_src {
+        label = "src";
+        
+        ivibin [label="ivi.bin"];
+        
+        ivihs [label="Ivi.hs"];
+        scripths [label="Script.hs"];
+        constantshs [label="Constants.hs"];
+
+        {rank=same scripths constantshs};
+
+        ivihs -> scripths;
+        ivihs -> constantshs;
+
+        subgraph cluster_src_scripts {
+            label = "scripts";
+            scriptslisths [label="ScriptsList.hs"];
+
+            bootstraphs [label="Bootstrap.hs", color="green"];
+            bootstraphs -> scriptslisths [color="green"];           
+
+            {rank=same bootstraphs scriptslisths};
+
+            subgraph cluster_src_scripts_examplescript {
+                label = "ExampleScript";
+                style = "dashed";
+                
+                examplescripths [label="ExampleScript.hs"];
+                ivifile [label="example.ivi"];
+                ivifile -> examplescripths [color="green"];
+                {rank=same ivifile examplescripths};
+            }
+            
+            subgraph cluster_src_scripts_examplescript2 {
+                label = "ExampleScript2";
+                style = "dashed";
+                
+                examplescript2hs [label="ExampleScript.hs"];
+                ivifile2 [label="example.ivi"];
+                ivifile2 -> examplescript2hs [color="green"];
+                {rank=same ivifile2 examplescript2hs};
+            }
+            scriptslisths -> examplescripths [style="dashed"];
+            scriptslisths -> examplescript2hs [style="dashed"];
+
+            
+            bootstraphs -> ivifile [color="green",arrowhead ="none",style="dashed"];
+            bootstraphs -> ivifile2 [color="green",arrowhead ="none",style="dashed"];
+
+        }
+        
+
+        scripths -> scriptslisths;
+    
+        subgraph cluster_src_ivipackage {
+            label = "SomeIVIPackage";
+            ivimodule [label="SomeIVIModule.hs"];
+        }
+        subgraph cluster_src_otherivipackage {
+            label = "SomeOtherIVIPackage";
+            otherivimodule [label="SomeOtherIVIModule.hs"];
+            otherivimodule2 [label="SomeOtherIVIModule2.hs"];
+            otherivimodule -> otherivimodule2;
+        }
+    }
+    examplescripths -> ivimodule [style="dashed"];
+    examplescripths -> otherivimodule [style="dashed"];
+    examplescript2hs -> otherivimodule [style="dashed"];
+    ivilink ->ivibin [color="blue"];
+    ivibin -> ivihs [color="red"];
+}
