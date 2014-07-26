@@ -12,7 +12,7 @@ bare:
 	ghc -Wall --make Ivi.hs -o ivi.bin
 
 documentation:
-	haddock --html -o ../doc Ivi.hs
+	haddock -w --html -o ../doc Ivi.hs
 
 clean:
 	rm -f *.o *.hi
