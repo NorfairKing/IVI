@@ -1,2 +1,49 @@
 * IVI
-Intelligent Virtual Interface
+  - Intelligent
+  - Virtual
+  - Interface
+** Installation
+   To install IVI, please perform the following steps.
+   1. Clone the repository.
+#+BEGIN_EXAMPLE
+$ git clone https://github.com/NorfairKing/IVI.git
+#+END_EXAMPLE
+   2. Compile the source. 
+#+BEGIN_EXAMPLE
+$ cd IVI
+IVI $ make
+#+END_EXAMPLE
+   3. Install the 'ivi' link in your $PATH
+#+BEGIN_EXAMPLE
+IVI $ sudo ln -sf ivi /usr/bin/ivi
+#+END_EXAMPLE
+or
+#+BEGIN_EXAMPLE
+IVI $ make install
+#+END_EXAMPLE
+*** Installing new scripts
+    To install a new script, please perform the following steps.
+    1. Go into the IVI Scripts directory
+#+BEGIN_EXAMPLE
+$ cd IVI/src/Scripts
+#+END_EXAMPLE
+    2. Copy the scripts directory in here (if you just have the directory) or clone the repository here (if the directory is in a repository)
+#+BEGIN_EXAMPLE
+IVI/src/Scripts $ cp -r path/to/script/Directory .
+#+END_EXAMPLE
+or
+#+BEGIN_EXAMPLE
+IVI/src/Scripts $ git clone https://github.com/SomeUsername/IVIScript.git
+#+END_EXAMPLE
+    3. Recompile IVI
+#+BEGIN_EXAMPLE
+IVI/src/Scripts $ cd ../..
+$ make
+#+END_EXAMPLE
+    There is no need to run 'make install' again.
+
+** Documentation
+   - [[https://github.com/NorfairKing/IVI/blob/master/details/getting_started.org][getting started]]
+   - [[https://github.com/NorfairKing/IVI/blob/master/details/your_first_script.org][your first script]]
+   - [[https://github.com/NorfairKing/IVI/blob/master/details/design.org][design]]
+   - [[https://github.com/NorfairKing/IVI/blob/master/details/technical_details.org][technical details]]
