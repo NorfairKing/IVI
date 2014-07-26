@@ -4,16 +4,16 @@
   - Interface
 ** Installation
    To install IVI, please perform the following steps.
-   1. Clone the repository.
+   - Clone the repository.
 #+BEGIN_EXAMPLE
 $ git clone https://github.com/NorfairKing/IVI.git
 #+END_EXAMPLE
-   2. Compile the source. 
+   - Compile the source. 
 #+BEGIN_EXAMPLE
 $ cd IVI
 IVI $ make
 #+END_EXAMPLE
-   3. Install the 'ivi' link in your $PATH
+   - Install the 'ivi' link in your $PATH
 #+BEGIN_EXAMPLE
 IVI $ sudo ln -sf ivi /usr/bin/ivi
 #+END_EXAMPLE
@@ -23,11 +23,11 @@ IVI $ make install
 #+END_EXAMPLE
 *** Installing new scripts
     To install a new script, please perform the following steps.
-    1. Go into the IVI Scripts directory
+    - Go into the IVI Scripts directory
 #+BEGIN_EXAMPLE
 $ cd IVI/src/Scripts
 #+END_EXAMPLE
-    2. Copy the scripts directory in here (if you just have the directory) or clone the repository here (if the directory is in a repository)
+    - Copy the scripts directory in here (if you just have the directory) or clone the repository here (if the directory is in a repository)
 #+BEGIN_EXAMPLE
 IVI/src/Scripts $ cp -r path/to/script/Directory .
 #+END_EXAMPLE
@@ -35,7 +35,7 @@ or
 #+BEGIN_EXAMPLE
 IVI/src/Scripts $ git clone https://github.com/SomeUsername/IVIScript.git
 #+END_EXAMPLE
-    3. Recompile IVI
+    - Recompile IVI
 #+BEGIN_EXAMPLE
 IVI/src/Scripts $ cd ../..
 $ make
