@@ -1,0 +1,7 @@
+* Your first script
+  To write your first IVI script, please refer to the script template repository.
+  *COMING SOON*
+  When writing your script, please take the time to consider the following:
+  - The name of your script directory *must* start with a capital letter.
+  - The best practice is to make your script directroy a git repository so that you can keep up with IVI updates.
+    (You don't need to put every script in a seperate repository.)
