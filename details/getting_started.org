@@ -1,0 +1,17 @@
+* Getting started
+  This repository only contains the IVI core.
+  It doesn't contain any scripts.
+  Scripts can be added yourself or written yourself.
+  Keep in mind that IVI doesn't do anything without its scripts.
+
+** Installing scripts
+   To install a script, simply copy the entiry script folder into the ivi scripts folder.
+#+BEGIN_EXAMPLE
+cp -r /path/to/script/Directory ivi/src/Scripts
+#+END_EXAMPLE
+   A script can also be installed directly from its repository.
+#+BEGIN_EXAMPLE
+cd /path/to/ivi/src/Scripts
+git clone https://github.com/SomeUsername/IVIScript 
+#+END_EXAMPLE
+   When installing a script, please make sure the script directory name starts with a capital letter.
