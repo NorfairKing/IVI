@@ -1,0 +1,57 @@
+digraph G {
+    ivilink [label="ivi", color="blue"];
+
+    subgraph cluster_src {
+        label = "src";
+        
+        ivibin [label="ivi.bin", color="red"];
+        
+        ivihs [label="Ivi.hs"];
+        scripths [label="Script.hs"];
+        constantshs [label="Constants.hs"];
+
+        {rank=same ivibin ivihs};
+        {rank=same scripths constantshs};
+
+        ivihs -> scripths;
+        ivihs -> constantshs;
+
+        subgraph cluster_src_scripts {
+            label = "scripts";
+            scriptslisths [label="ScriptsList.hs"];
+
+            bootstraphs [label="Bootstrap.hs", color="green"];
+            bootstrap [label="Bootstrap.bin", color="green", color="red"];
+            bootstraphs -> bootstrap [color="red"];
+            bootstrap -> scriptslisths [color="green:white:green"];           
+
+            {rank=same bootstraphs bootstrap scriptslisths};
+
+            subgraph cluster_scr_scripts_bootstrap {
+                label = "Bootstrap";
+                color = "green";
+            
+                bootstrapmodulehs [label="BootstrapModule.hs",color="green"];
+            }
+            bootstraphs -> bootstrapmodulehs[color="green"];
+
+
+        }
+        
+
+        scripths -> scriptslisths;
+    
+        subgraph cluster_src_ivipackage {
+            label = "SomeIVIPackage";
+            ivimodule [label="SomeIVIModule.hs"];
+        }
+        subgraph cluster_src_otherivipackage {
+            label = "SomeOtherIVIPackage";
+            otherivimodule [label="SomeOtherIVIModule.hs"];
+            otherivimodule2 [label="SomeOtherIVIModule2.hs"];
+            otherivimodule -> otherivimodule2;
+        }
+    }
+    ivilink ->ivibin [color="blue"];
+    ivihs -> ivibin [color="red"];
+}

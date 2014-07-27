@@ -8,7 +8,6 @@ bootstrap:
 	./bootstrap.bin
 	echo
 	echo "Bootstrap done."
-	make clean
 
 clean:
 	rm -f *.o *.hi

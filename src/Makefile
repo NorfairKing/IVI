@@ -3,7 +3,6 @@ all:
 	make bootstrap
 	make bare
 	make documentation
-	make clean
 
 bootstrap:
 	$(MAKE) -C Scripts bootstrap
