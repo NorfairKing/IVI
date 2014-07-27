@@ -53,7 +53,33 @@ execute args = ...
 #+END_EXAMPLE
 ** Bootstrap
    The bootstrap procedure is a way of making IVI compile *without* using any dynamic invokation.
-   #+CAPTION: The strucutre of the vanilla IVI repository.
+   #+CAPTION: The structure of the vanilla IVI repository.
    [[file:dep_graph_empty.png]]
 
    The above image shows what the repository looks like when you first clone it.
+   When you install some scripts, the repository will look more like the following figure.
+   #+CAPTION: The structure of the IVI repository with two example scripts added.
+   [[file:dep_graph_empty.png]]
+
+
+
+*** Legend
+    The semantics of the illustration
+    - blue ellipse: symlinked file
+    - blue arrow: symlink
+
+    - black rectangle: directory
+    - black ellipse: IVI source file (.hs)
+    - black arrow: "imports" (in IVI)
+
+    - red ellipse: executable (.bin)
+    - red arrow: "compiles to"
+
+    - green rectangle: bootstrap directory
+    - green ellipse: bootstrap source file (.hs)
+    - green arrow: "imports" (in bootstrap procedure)
+    - green double arrow: "produces"
+
+    - brown dashed rectangle: script directory
+    - brown ellipse: script source file
+    - brown dotted ellipse: script file (.ivi)

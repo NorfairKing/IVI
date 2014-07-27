@@ -1,15 +1,16 @@
 digraph G {
-    ivilink [label="ivi"];
+    ivilink [label="ivi", color="blue"];
 
     subgraph cluster_src {
         label = "src";
         
-        ivibin [label="ivi.bin"];
+        ivibin [label="ivi.bin", color="red"];
         
         ivihs [label="Ivi.hs"];
         scripths [label="Script.hs"];
         constantshs [label="Constants.hs"];
 
+        {rank=same ivibin ivihs};
         {rank=same scripths constantshs};
 
         ivihs -> scripths;
@@ -20,9 +21,11 @@ digraph G {
             scriptslisths [label="ScriptsList.hs"];
 
             bootstraphs [label="Bootstrap.hs", color="green"];
-            bootstraphs -> scriptslisths [color="green:white:green"];           
+            bootstrap [label="Bootstrap.bin", color="green", color="red"];
+            bootstraphs -> bootstrap [color="red"];
+            bootstrap -> scriptslisths [color="green:white:green"];           
 
-            {rank=same bootstraphs scriptslisths};
+            {rank=same bootstraphs bootstrap scriptslisths};
 
             subgraph cluster_scr_scripts_bootstrap {
                 label = "Bootstrap";
@@ -35,28 +38,30 @@ digraph G {
             subgraph cluster_src_scripts_examplescript {
                 label = "ExampleScript";
                 style = "dashed";
+                color = "brown";
                 
                 examplescripths [label="ExampleScript.hs", color="brown"];
-                ivifile [label="example.ivi",color="brown"];
-                ivifile -> examplescripths [color="green"];
+                ivifile [label="example.ivi",color="brown", style="dotted"];
+                ivifile -> examplescripths [color="green", style="dotted", arrowhead="vee"];
                 {rank=same ivifile examplescripths};
             }
             
             subgraph cluster_src_scripts_examplescript2 {
                 label = "ExampleScript2";
                 style = "dashed";
+                color = "brown";
                 
                 examplescript2hs [label="ExampleScript.hs", color="brown"];
-                ivifile2 [label="example.ivi", color="brown"];
-                ivifile2 -> examplescript2hs [color="green"];
+                ivifile2 [label="example.ivi", color="brown", style="dotted"];
+                ivifile2 -> examplescript2hs [color="green", style="dotted", arrowhead="vee"];
                 {rank=same ivifile2 examplescript2hs};
             }
             scriptslisths -> examplescripths [style="dashed"];
             scriptslisths -> examplescript2hs [style="dashed"];
 
             
-            bootstraphs -> ivifile [color="green",arrowhead ="none",style="dashed"];
-            bootstraphs -> ivifile2 [color="green",arrowhead ="none",style="dashed"];
+            ivifile  -> bootstrap [color="green", style="dashed"];
+            ivifile2 -> bootstrap [color="green", style="dashed"];
 
         }
         
@@ -78,5 +83,5 @@ digraph G {
     examplescripths -> otherivimodule [style="dashed"];
     examplescript2hs -> otherivimodule [style="dashed"];
     ivilink ->ivibin [color="blue"];
-    ivibin -> ivihs [color="red"];
+    ivihs -> ivibin [color="red"];
 }
