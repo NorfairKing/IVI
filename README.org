@@ -12,6 +12,7 @@ $ git clone https://github.com/NorfairKing/IVI.git
 #+BEGIN_EXAMPLE
 cabal instal --only-dependencies
 #+END_EXAMPLE
+   Note: do *not* use 'cabal install'! Use the makefile instead. (see below)
    - Compile the source. 
 #+BEGIN_EXAMPLE
 $ cd IVI
