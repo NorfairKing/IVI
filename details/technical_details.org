@@ -61,10 +61,7 @@ execute args = ...
    #+CAPTION: The structure of the IVI repository with two example scripts added.
    [[file:dep_graph.png]]
 
-
-
-*** Legend
-    The semantics of the illustration
+   The semantics of the illustration
     - blue ellipse: symlinked file
     - blue arrow: symlink
 
@@ -83,3 +80,16 @@ execute args = ...
     - brown dashed rectangle: script directory
     - brown ellipse: script source file
     - brown dotted ellipse: script file (.ivi)
+
+*** The procedure
+    When the bootstrap procedure (bootstrap.bin) is executed, the following happens.
+    - The procedure finds all directories in the scripts directory that contain at least one ivi file.
+    - For each one of these directories
+      - The procedure checks if the IVI version and the script version are compatible.
+      - The procedure parses the ivi files.
+      - For each one of these ivi files
+        - The procedure generates an entry in the scripts list file
+        - and the import statement for it.
+
+    Note: If there is something wrong with the scripts, the bootstrap procedure will not generate errors.
+    This will happen at IVI compile time.
