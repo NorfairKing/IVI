@@ -54,6 +54,6 @@ execute args = ...
 ** Bootstrap
    The bootstrap procedure is a way of making IVI compile *without* using any dynamic invokation.
    #+CAPTION: The strucutre of the vanilla IVI repository.
-   [[file:dep_graph_empty.png.png]]
+   [[file:dep_graph_empty.png]]
 
    The above image shows what the repository looks like when you first clone it.
