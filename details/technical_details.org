@@ -54,20 +54,6 @@ execute args = ...
 ** Bootstrap
    The bootstrap procedure is a way of making IVI compile *without* using any dynamic invokation.
    #+CAPTION: The strucutre of the vanilla IVI repository.
-   [[file:img/generic/link.png]]
-
-   #+name: make-dot
-   #+BEGIN_SRC emacs-lisp :var table=dot-eg-table :results output :exports none
-     (mapcar #'(lambda (x)
-                 (princ (format "%s [label =\"%s\", shape = \"box\"];\n"
-                                (first x) (second x)))) table)
-                  (princ (format "%s -- %s;\n" (first (first table)) (first (second table))))
-   #+END_SRC
-
-   #+BEGIN_SRC dot :file dep_graph_empty.png :var input=make-dot :exports results
-   graph {
-   $input
-   }
-   #+END_SRC
+   [[file:dep_graph_empty.png.png]]
 
    The above image shows what the repository looks like when you first clone it.
