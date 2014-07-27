@@ -36,9 +36,9 @@ digraph G {
                 label = "ExampleScript";
                 style = "dashed";
                 
-                examplescripths [label="ExampleScript.hs"];
-                ivifile [label="example.ivi"];
-                ivifile -> examplescripths [color="green",style="double"];
+                examplescripths [label="ExampleScript.hs", color="brown"];
+                ivifile [label="example.ivi",color="brown"];
+                ivifile -> examplescripths [color="green"];
                 {rank=same ivifile examplescripths};
             }
             
@@ -46,8 +46,8 @@ digraph G {
                 label = "ExampleScript2";
                 style = "dashed";
                 
-                examplescript2hs [label="ExampleScript.hs"];
-                ivifile2 [label="example.ivi"];
+                examplescript2hs [label="ExampleScript.hs", color="brown"];
+                ivifile2 [label="example.ivi", color="brown"];
                 ivifile2 -> examplescript2hs [color="green"];
                 {rank=same ivifile2 examplescript2hs};
             }

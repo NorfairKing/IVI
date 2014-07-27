@@ -51,3 +51,15 @@ import Script
 execute :: IVIScriptArgs -> IO IVIScriptResult
 execute args = ...
 #+END_EXAMPLE
+** Bootstrap
+   The bootstrap procedure is a way of making IVI compile *without* using any dynamic invokation.
+   #+CAPTION: The strucutre of the vanilla IVI repository.
+   [[file:img/generic/link.png]]
+
+   #+BEGIN_SRC dot :file dep_graph_empty.png :var input=make-dot :exports results
+   graph {
+   $input
+   }
+   #+END_SRC
+
+   The above image shows what the repository looks like when you first clone it.
