@@ -8,6 +8,10 @@
 #+BEGIN_EXAMPLE
 $ git clone https://github.com/NorfairKing/IVI.git
 #+END_EXAMPLE
+   - Install the dependencies.
+#+BEGIN_EXAMPLE
+cabal instal --only-dependencies
+#+END_EXAMPLE
    - Compile the source. 
 #+BEGIN_EXAMPLE
 $ cd IVI
