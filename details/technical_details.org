@@ -59,7 +59,7 @@ execute args = ...
    The above image shows what the repository looks like when you first clone it.
    When you install some scripts, the repository will look more like the following figure.
    #+CAPTION: The structure of the IVI repository with two example scripts added.
-   [[file:dep_graph_empty.png]]
+   [[file:dep_graph.png]]
 
 
 
