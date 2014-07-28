@@ -1,5 +1,5 @@
 * Your first script
-  To write your first IVI script, please refer to the [[https://github.com/NorfairKing/IVIExampleScript][script template repository]].
+  To write your first IVI script, please refer to the [[https://github.com/NorfairKing/IVIScriptTemplate][script template repository]].
 
   When writing your script, please take the time to consider the following:
   - The name of your script directory *must* start with a capital letter.

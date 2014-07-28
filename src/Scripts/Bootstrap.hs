@@ -29,6 +29,7 @@ data IVIConfig = Config { sourceFileName :: String
                         }
     deriving (Show)
 
+-- | Parse the configurations in an ivi file
 getIVIConfig :: FilePath -> IO IVIConfig
 getIVIConfig file = do
     cfg <- C.load [Required file]
@@ -101,6 +102,9 @@ parseScript scriptDir iviFile = do
             ++ scriptDir 
             ++ "." 
             ++ sourceFileName cfg
+            ++ " ("
+            ++ executeFunctionName cfg
+            ++ ")"
             , 
                "Script " 
             ++ show (name cfg)
