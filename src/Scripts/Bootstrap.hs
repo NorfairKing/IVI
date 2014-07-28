@@ -102,6 +102,9 @@ parseScript scriptDir iviFile = do
             ++ scriptDir 
             ++ "." 
             ++ sourceFileName cfg
+            ++ " ("
+            ++ executeFunctionName cfg
+            ++ ")"
             , 
                "Script " 
             ++ show (name cfg)

@@ -9,6 +9,7 @@
 ScriptDirectory
 |- script.ivi
 |- Script.hs
+|- VERSION
 #+END_EXAMPLE
 
    Note that only the entry function of the script needs to be in haskell.
@@ -22,26 +23,6 @@ ScriptDirectory
 #+BEGIN_EXAMPLE
 AVeryLongScriptDirectoryNameExample
 #+END_EXAMPLE
-
-*** IVI file
-    - A script directory *must* contain *at least one* '.ivi' file, containing the script configuration
-    - There can be more than one '.ivi' files, one for every function to execute.
-      In this way, multiple scripts can be packaged into one directory.
-
-    A '.ivi' file is structure in the following way:
-#+BEGIN_EXAMPLE
-sourceFileName = "Script.hs"
-name = "script_name"
-executeFunctionName = "executeFunction"
-regexes = [
-            "regex1"
-          , "foo(die)?bar"
-          ]
-#+END_EXAMPLE
-    - SourceFileName: the name of the source code file where the execute function is located (Pascal Casing)
-    - name: the name of the script (lowercase with underscores)
-    - executeFunctionName: the name of the function to execute at script entry (camelCasing)
-    - regexes: the list of regexes from which the script can be recognised.
 *** Source file
     Any source file in the IVI script directory must have the following lines:
 #+BEGIN_EXAMPLE
@@ -57,6 +38,34 @@ import Script
 -- | A description of the workings of the script.
 execute :: IVIScriptArgs -> IO IVIScriptResult
 execute args = ...
+#+END_EXAMPLE
+
+*** IVI file
+    - A script directory *must* contain *at least one* '.ivi' file, containing the script configuration
+    - There can be more than one '.ivi' files, one for every function to execute.
+      In this way, multiple scripts can be packaged into one directory.
+
+    A '.ivi' file is structure in the following way:
+#+BEGIN_EXAMPLE
+sourceFileName = "Script"
+name = "script_name"
+executeFunctionName = "executeFunction"
+regexes = [
+            "regex1"
+          , "foo(die)?bar"
+          ]
+#+END_EXAMPLE
+    - SourceFileName: the name of the source code file where the execute function is located (Pascal Casing)
+    - name: the name of the script (lowercase with underscores)
+    - executeFunctionName: the name of the function to execute at script entry (camelCasing)
+    - regexes: the list of regexes from which the script can be recognised.
+*** VERSION file
+    The VERSION file contains the version *of IVI* that was used to develop the script.
+    At bootstrap, this file is checked for compatibility.
+    example:
+#+BEGIN_EXAMPLE
+ivi/src/Scripts/ScriptDirectory$ cat VERSION 
+0.1.0.0
 #+END_EXAMPLE
 ** Bootstrap
    The bootstrap procedure is a way of making IVI compile *without* using any dynamic invokation.
@@ -100,4 +109,5 @@ execute args = ...
 
     Note: If there is something wrong with the scripts, the bootstrap procedure will not generate errors.
     This will happen at IVI compile time.
+    
     
