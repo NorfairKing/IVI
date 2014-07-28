@@ -18,6 +18,7 @@ import System.Exit (exitSuccess,exitFailure)
 import Text.Regex.Posix ((=~))
 
 import Script
+import Constants
 import Scripts.ScriptsList (scripts)
 
 -- | Run IVI

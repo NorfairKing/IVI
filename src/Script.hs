@@ -1,6 +1,6 @@
 {-|
 Module      : Script
-Description : All script functionality
+Description : All script datastructures
 -}
 module Script (
     -- * Data structures
