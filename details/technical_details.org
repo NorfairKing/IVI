@@ -3,13 +3,17 @@
    Scripts are never included in the IVI repository.
    Scripts are developped independently, based on the IVI API.
 
-   A script consists of the following elements
+   A script consists of at least the following elements.
 
 #+BEGIN_EXAMPLE
 ScriptDirectory
 |- script.ivi
 |- Script.hs
 #+END_EXAMPLE
+
+   Note that only the entry function of the script needs to be in haskell.
+   The script may of course use other languages too, but the safety of this
+   is left to the script developer.
 
 *** Script Directory
     - The script directory name *must* start with a capital letter.
@@ -26,28 +30,31 @@ AVeryLongScriptDirectoryNameExample
 
     A '.ivi' file is structure in the following way:
 #+BEGIN_EXAMPLE
-SourceFileName
-scriptname
-executeFunction
-regex1
-regex2
-regex3
+sourceFileName = "Script.hs"
+name = "script_name"
+executeFunctionName = "executeFunction"
+regexes = [
+            "regex1"
+          , "foo(die)?bar"
+          ]
 #+END_EXAMPLE
     - SourceFileName: the name of the source code file where the execute function is located (Pascal Casing)
-    - scriptname: the name of the script (lowercase with underscores)
-    - executeFunction: the name of the function to execute at script entry (camelCasing)
-    - regex1,...: the list of regexes from which the script can be recognised. (one regex per line)
-
+    - name: the name of the script (lowercase with underscores)
+    - executeFunctionName: the name of the function to execute at script entry (camelCasing)
+    - regexes: the list of regexes from which the script can be recognised.
 *** Source file
     Any source file in the IVI script directory must have the following lines:
 #+BEGIN_EXAMPLE
 module Scripts.ScriptDirectory.SourceFileName where
 import Script
 #+END_EXAMPLE
+    Here, Scripts is constant, ScriptDirectory is the name of the script directory
+    and SourceFileName is the name of the source (.hs) file where the execute function is defined.
 
-    The source file described in the '.ivi' file must contain a function as described by the 'executeFunction' line.
+    The source file described in the '.ivi' file must contain a function as described by the 'executeFunctionName' line.
     This function *must* have the following signature:
 #+BEGIN_EXAMPLE
+-- | A description of the workings of the script.
 execute :: IVIScriptArgs -> IO IVIScriptResult
 execute args = ...
 #+END_EXAMPLE
@@ -93,3 +100,4 @@ execute args = ...
 
     Note: If there is something wrong with the scripts, the bootstrap procedure will not generate errors.
     This will happen at IVI compile time.
+    
