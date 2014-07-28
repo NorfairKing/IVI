@@ -12,6 +12,7 @@ module Main (
     ) where
 
 import Data.List (find)
+import Data.Maybe (isJust)
 import System.Environment (getArgs)
 import System.Exit (exitSuccess,exitFailure)
 import Text.Regex.Posix ((=~))
@@ -43,10 +44,9 @@ recognize :: [String] -- ^ The bare command-line arguments
           -> Maybe IVIScript -- ^ Either the recognised script, or nothing
 recognize [] = Nothing
 recognize args = do
-    let scriptByName = findByName
-    case scriptByName of
-        Just _ -> scriptByName
-        Nothing -> findByRegex
+    if isJust findByName
+    then findByName
+    else findByRegex
     where
         findByName = find (\(Script name _ _) -> name == head args) scripts
         findByRegex = find (\(Script _ _ regexes) -> unwords args `matchesAnyOf` regexes) scripts
