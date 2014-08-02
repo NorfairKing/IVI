@@ -1,7 +1,7 @@
 * Technical Details
 ** Scripts
    Scripts are never included in the IVI repository.
-   Scripts are developped independently, based on the IVI API.
+   Scripts are developed independently, based on the IVI API.
 
    A script consists of at least the following elements.
 
