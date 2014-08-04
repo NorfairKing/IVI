@@ -1,6 +1,13 @@
 .PHONY: src
+
+all:
+	make build
+	make link
+
 build:
 	$(MAKE) -C src
+
+link:
 	ln -sf src/ivi.bin ivi
 
 install:
