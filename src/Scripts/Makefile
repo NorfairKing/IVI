@@ -1,5 +1,6 @@
 .SILENT: all bootstrap clean
 all:
+	make clean
 	echo "Getting ready to bootstrap IVI."	
 	echo "Building the bootstrap from source."
 	make Bootstrap
