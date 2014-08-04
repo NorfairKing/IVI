@@ -1,9 +1,8 @@
 .SILENT: all bootstrap clean
 all:
-	make clean
 	echo "Getting ready to bootstrap IVI."	
 	echo "Building the bootstrap from source."
-	make Bootstrap
+	make bootstrap
 	echo "Bootstrap program built, starting the bootstrap."
 	echo
 	./bootstrap.bin
@@ -11,10 +10,14 @@ all:
 	echo "Bootstrap done."
 
 bootstrap:
-	$(MAKE) -C Bootstrap
+	$(MAKE) -C IVIBootstrap
+
+install:
+	rm -rf IVIBootstrap
+	git clone -q git@github.com:NorfairKing/IVIBootstrap.git
 
 clean:
-	$(MAKE) -C Bootstrap clean
+	$(MAKE) -C IVIBootstrap clean
 	rm -f *.o *.hi
 
 .Phony: Bootstrap

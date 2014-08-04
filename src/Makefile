@@ -13,5 +13,8 @@ bare:
 documentation:
 	haddock -w --html -o ../doc Ivi.hs
 
+install:
+	$(MAKE) -C Scripts install
+
 clean:
 	rm -f *.o *.hi
