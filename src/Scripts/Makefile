@@ -15,6 +15,7 @@ bootstrap:
 install:
 	rm -rf IVIBootstrap
 	git clone -q git@github.com:NorfairKing/IVIBootstrap.git
+	make bootstrap
 
 clean:
 	$(MAKE) -C IVIBootstrap clean
