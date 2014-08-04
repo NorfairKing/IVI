@@ -12,20 +12,15 @@ $ git clone https://github.com/NorfairKing/IVI.git
 #+BEGIN_EXAMPLE
 cabal instal --only-dependencies
 #+END_EXAMPLE
-   Note: do *not* use 'cabal install'! Use the makefile instead. (see below)
-   - Compile the source. 
-#+BEGIN_EXAMPLE
-$ cd IVI
-IVI $ make
-#+END_EXAMPLE
-   - Install the 'ivi' link in your $PATH
-#+BEGIN_EXAMPLE
-IVI $ sudo ln -sf ivi /usr/bin/ivi
-#+END_EXAMPLE
-or
+   - Install the bootstrap ivi and build her for the first time
 #+BEGIN_EXAMPLE
 IVI $ make install
 #+END_EXAMPLE
+   - Try to run 'ivi', if it doesn't work, install the 'ivi' link in your $PATH
+#+BEGIN_EXAMPLE
+IVI $ sudo ln -sf ivi /usr/bin/ivi
+#+END_EXAMPLE
+
 *** Installing new scripts
     To install a new script, please perform the following steps.
     - Go into the IVI Scripts directory
