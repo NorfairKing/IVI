@@ -20,17 +20,16 @@ digraph G {
             label = "scripts";
             scriptslisths [label="ScriptsList.hs"];
 
-            bootstraphs [label="Bootstrap.hs", color="green"];
             bootstrap [label="Bootstrap.bin", color="green", color="red"];
-            bootstraphs -> bootstrap [color="red"];
             bootstrap -> scriptslisths [color="green:white:green"];           
 
-            {rank=same bootstraphs bootstrap scriptslisths};
+            {rank=same bootstrap scriptslisths};
 
             subgraph cluster_scr_scripts_bootstrap {
                 label = "Bootstrap";
                 color = "green";
-            
+                bootstraphs [label="Bootstrap.hs", color="green"];
+                bootstraphs -> bootstrap [color="red"];
                 bootstrapmodulehs [label="BootstrapModule.hs",color="green"];
             }
             bootstraphs -> bootstrapmodulehs[color="green"];
