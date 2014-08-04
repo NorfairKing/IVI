@@ -1,13 +1,19 @@
-.SILENT: bootstrap
-bootstrap:
+.SILENT: all bootstrap clean
+all:
 	echo "Getting ready to bootstrap IVI."	
 	echo "Building the bootstrap from source."
-	ghc -Wall --make Bootstrap.hs -o bootstrap.bin
+	make Bootstrap
 	echo "Bootstrap program built, starting the bootstrap."
 	echo
 	./bootstrap.bin
 	echo
 	echo "Bootstrap done."
 
+bootstrap:
+	$(MAKE) -C Bootstrap
+
 clean:
+	$(MAKE) -C Bootstrap clean
 	rm -f *.o *.hi
+
+.Phony: Bootstrap
