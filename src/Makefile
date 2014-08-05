@@ -5,7 +5,7 @@ all:
 	make documentation
 
 bootstrap:
-	$(MAKE) -C Scripts bootstrap
+	$(MAKE) -C Scripts
 
 bare:
 	ghc -Wall --make Ivi.hs -o ivi.bin
