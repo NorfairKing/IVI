@@ -1,6 +1,10 @@
-all:
-	make dep_graph.png
-	make dep_graph_empty.png
+
+ILLUSTRATIONS = dep_graph.png dep_graph_empty.png
+
+DOTSCRIPT       = ./makedot.sh
+DOTSCRIPT_FLAGS = 
+
+all: $(ILLUSTRATIONS)
 
 %.png: %.dot
-	bash makedot.sh $<
+	$(DOTSCRIPT) $(DOTSCRIPT_FLAGS) $<
