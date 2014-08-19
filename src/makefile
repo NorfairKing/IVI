@@ -23,7 +23,6 @@ DOC_DIR         = ../doc
 documentation:
 	$(HADDOCK) $(HADDOCK_FLAGS) -o $(DOC_DIR) $(MAIN_SRC)
 
-
 install:
 	$(MAKE) -C Scripts install
 
