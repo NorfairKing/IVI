@@ -7,7 +7,7 @@ GHC_FLAGS   =   -Wall \
                 --make
 
 MAIN_SRC    = Ivi.hs
-EXECUTABLE  = ibi.bin
+EXECUTABLE  = ivi.bin
 
 bare:
 	$(GHC) $(GHC_FLAGS) $(MAIN_SRC) -o $(EXECUTABLE)
