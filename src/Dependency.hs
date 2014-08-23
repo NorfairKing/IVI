@@ -4,10 +4,10 @@ import System.Process
 import System.IO
 import System.Exit
 
-data Dependency = Command String -- Name
+type Dependency = String -- Name
 
 checkDependency :: Dependency -> IO Bool
-checkDependency (Command name) = do
+checkDependency dep = do
     nullHandleOut <- openFile "/dev/null" AppendMode
     nullHandleIn  <- openFile "/dev/null" ReadMode
     let process = (shell cmd)
@@ -21,4 +21,12 @@ checkDependency (Command name) = do
         ExitFailure _ -> return False
     
     where
-        cmd = "command -v" ++ " " ++ name
+        cmd = "command -v" ++ " " ++ dep
+
+withDependency :: Dependency -> (IO ()) -> IO ()
+withDependency dep fun = do
+    meets <- checkDependency dep
+    if meets
+    then fun
+    else error $ "Missing dependency: " ++ dep
+
