@@ -8,8 +8,17 @@ GHC_FLAGS   =   -Wall \
 MAIN_SRC    = Ivi.hs
 EXECUTABLE  = ivi.bin
 
+ECHO        = echo -e
+
+
 bare:
+	$(ECHO)
+	$(ECHO) "----------------"
+	$(ECHO) "| Building IVI |"
+	$(ECHO) "------------------------------------------------------------------"
 	$(GHC) $(GHC_FLAGS) $(MAIN_SRC) -o $(EXECUTABLE)
+	$(ECHO) "------------------------------------------------------------------"
+	$(ECHO)
 
 HADDOCK         = haddock
 HADDOCK_FLAGS   =   --html  \

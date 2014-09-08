@@ -21,19 +21,24 @@ WARN_STRING         = $(WARN_COLOR)[WARNINGS]$(NO_COLOR)
 ECHO                = echo -e
 
 all:
-	$(ECHO) "Getting ready to bootstrap IVI."	
-	$(ECHO) "Building the bootstrap from source."
+	$(ECHO)
+	$(ECHO) "--------------------------"
+	$(ECHO) "| Building the bootstrap |"
+	$(ECHO) "------------------------------------------------------------------"
 	make bootstrap
 	$(ECHO) -n "Bootstrap built"
 	$(ECHO) -e " $(OK_STRING)"
+	$(ECHO) "------------------------------------------------------------------"
 	$(ECHO)
-	$(ECHO) "Starting the bootstrap."
-	$(ECHO)
+	$(ECHO) "---------------------"
+	$(ECHO) "| Bootstrapping IVI |"
+	$(ECHO) "------------------------------------------------------------------"
 	$(EXECUTABLE)
-	$(ECHO)
 	$(ECHO) -n "Bootstrap done."
 	$(ECHO) -e " $(OK_STRING)"
-
+	$(ECHO) "------------------------------------------------------------------"
+	$(ECHO)
+    
 .PHONY: $(BOOTSTRAP)
 
 bootstrap:
@@ -44,7 +49,7 @@ install:
 	git clone -q $(REPOSITORY)
 	$(MAKE) -C $(BOOTSTRAP) install
 	make bootstrap
-	./bootstrap.bin
+	$(EXECUTABLE_DIR)/$(EXECUTABLE_NAME)
 
 clean:
 	$(MAKE) -C $(BOOTSTRAP) clean
