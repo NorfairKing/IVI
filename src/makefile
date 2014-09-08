@@ -1,6 +1,5 @@
 .PHONY: Scripts
 
-all: bootstrap bare documentation
 
 GHC         = ghc
 GHC_FLAGS   =   -Wall \
@@ -19,6 +18,10 @@ HADDOCK_FLAGS   =   --html  \
                     --print-missing-docs\
 
 DOC_DIR         = ../doc
+
+regular: bootstrap bare
+
+all: bootstrap bare documentation
 
 documentation:
 	$(HADDOCK) $(HADDOCK_FLAGS) -o $(DOC_DIR) $(MAIN_SRC)
