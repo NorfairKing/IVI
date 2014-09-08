@@ -8,11 +8,7 @@
 #+BEGIN_EXAMPLE
 $ git clone https://github.com/NorfairKing/IVI.git
 #+END_EXAMPLE
-   - Install the dependencies.
-#+BEGIN_EXAMPLE
-cabal install --only-dependencies
-#+END_EXAMPLE
-   - Install the bootstrap ivi and build her for the first time
+   - Install IVI
 #+BEGIN_EXAMPLE
 IVI $ make install
 #+END_EXAMPLE

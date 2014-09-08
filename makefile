@@ -20,6 +20,7 @@ link:
 	@ln -sf $(EXECUTABLE) $(LINK)
 
 install:
+	cabal install --only-dependencies
 	$M src install
 	sudo ln -sf $(LINK) $(INSTALL_PATH)
 	make all
