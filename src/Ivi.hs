@@ -43,7 +43,7 @@ main = do
 recognize :: [String] -- ^ The bare command-line arguments
           -> Maybe IVIScript -- ^ Either the recognised script, or nothing
 recognize [] = Nothing
-recognize args = do
+recognize args =
     if isJust findByName
     then findByName
     else findByRegex
