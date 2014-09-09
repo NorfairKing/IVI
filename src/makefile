@@ -9,17 +9,6 @@ HERE        = $(shell pwd)
 MAIN_SRC    = $(HERE)/Ivi.hs
 EXECUTABLE  = $(HERE)/ivi.bin
 
-ECHO        = echo -e
-
-bare:
-	$(ECHO)
-	$(ECHO) "----------------"
-	$(ECHO) "| Building IVI |"
-	$(ECHO) "------------------------------------------------------------------"
-	$(GHC) $(GHC_FLAGS) $(MAIN_SRC) -o $(EXECUTABLE)
-	$(ECHO) "------------------------------------------------------------------"
-	$(ECHO)
-
 HADDOCK         = haddock
 HADDOCK_FLAGS   =   --html  \
                     --pretty-html\
@@ -28,18 +17,32 @@ HADDOCK_FLAGS   =   --html  \
 
 DOC_DIR         = ../doc
 
-regular: bootstrap bare
+ECHO        = echo -e
 
-all: bootstrap bare documentation
+regular: bootstrap prebuild build
+
+all: bootstrap prebuild build documentation
+
+bootstrap:
+	$(MAKE) -C Scripts bootstrap
+
+prebuild:
+	$(MAKE) -C Scripts prebuild
+
+build:
+	$(ECHO)
+	$(ECHO) "----------------"
+	$(ECHO) "| Building IVI |"
+	$(ECHO) "------------------------------------------------------------------"
+	$(GHC) $(GHC_FLAGS) $(MAIN_SRC) -o $(EXECUTABLE)
+	$(ECHO) "------------------------------------------------------------------"
+	$(ECHO)
 
 documentation:
 	$(HADDOCK) $(HADDOCK_FLAGS) -o $(DOC_DIR) $(MAIN_SRC)
 
 install:
 	$(MAKE) -C Scripts install
-
-bootstrap:
-	$(MAKE) -C Scripts
 
 clean:
 	rm -f *.o *.hi *.dyn_o *.dyn_hi $(EXECUTABLE)

@@ -1,4 +1,4 @@
-.SILENT: all bootstrap clean
+.PHONY: $(BOOTSTRAP)
 
 REPOSITORY          = git@github.com:NorfairKing/IVIBootstrap.git
 
@@ -8,6 +8,7 @@ EXECUTABLE_NAME     = bootstrap.bin
 EXECUTABLE_DIR      = .
 EXECUTABLE          = $(EXECUTABLE_DIR)/$(EXECUTABLE_NAME)
 
+PREBUILD_SCRIPT		= prebuild.sh
 
 NO_COLOR            = \x1b[0m
 OK_COLOR            = \x1b[32;01m
@@ -20,12 +21,12 @@ WARN_STRING         = $(WARN_COLOR)[WARNINGS]$(NO_COLOR)
 
 ECHO                = echo -e
 
-all:
+bootstrap:
 	$(ECHO)
 	$(ECHO) "--------------------------"
 	$(ECHO) "| Building the bootstrap |"
 	$(ECHO) "------------------------------------------------------------------"
-	make bootstrap
+	make build_bootstrap
 	$(ECHO) -n "Bootstrap built"
 	$(ECHO) -e " $(OK_STRING)"
 	$(ECHO) "------------------------------------------------------------------"
@@ -39,10 +40,18 @@ all:
 	$(ECHO) "------------------------------------------------------------------"
 	$(ECHO)
     
-.PHONY: $(BOOTSTRAP)
 
-bootstrap:
+build_bootstrap:
 	$(MAKE) -C $(BOOTSTRAP)
+
+prebuild:
+	$(ECHO)
+	$(ECHO) "---------------------------------"
+	$(ECHO) "| Running Script prebuild hooks |"
+	$(ECHO) "------------------------------------------------------------------"
+	bash $(PREBUILD_SCRIPT)
+	$(ECHO) "------------------------------------------------------------------"
+	$(ECHO)
 
 install:
 	rm -rf $(BOOTSTRAP)
