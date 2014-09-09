@@ -5,11 +5,11 @@ GHC         = ghc
 GHC_FLAGS   =   -Wall \
                 --make
 
-MAIN_SRC    = Ivi.hs
-EXECUTABLE  = ivi.bin
+HERE        = $(shell pwd)
+MAIN_SRC    = $(HERE)/Ivi.hs
+EXECUTABLE  = $(HERE)/ivi.bin
 
 ECHO        = echo -e
-
 
 bare:
 	$(ECHO)
