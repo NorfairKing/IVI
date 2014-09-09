@@ -26,5 +26,5 @@ install:
 	make all
 
 clean:
-	unlink $(LINK)
+	@unlink $(LINK)
 	@$M src clean

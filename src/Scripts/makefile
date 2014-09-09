@@ -53,5 +53,5 @@ install:
 
 clean:
 	$(MAKE) -C $(BOOTSTRAP) clean
-	rm -f *.o *.hi
+	rm -f *.o *.hi *.dyn_o *.dyn_hi
 

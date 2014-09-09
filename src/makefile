@@ -42,4 +42,4 @@ bootstrap:
 	$(MAKE) -C Scripts
 
 clean:
-	rm -f *.o *.hi
+	rm -f *.o *.hi *.dyn_o *.dyn_hi
