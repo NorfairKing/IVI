@@ -1,8 +1,13 @@
+{-|
+Module      : Speech
+Description : All functionality to let IVI speak.
+-}
 module Speech where
 
 import           Dependency     (withDependencies)
 import           System.Process (runCommand, waitForProcess)
 
+-- | Let IVI say anything
 say :: String -> IO ()
 say str = withDependencies [playBin, generationBin] go
     where
