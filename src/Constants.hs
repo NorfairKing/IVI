@@ -42,7 +42,10 @@ iviRootDirectory = takeDirectory iviSrcDirectory
 
 -- | The absolute path to the source directory of ivi code
 iviSrcDirectory :: FilePath
-iviSrcDirectory = $(do 
+iviSrcDirectory = takeDirectory $(do 
     dir <- runIO getCurrentDirectory
     filename <- loc_filename <$> location
     litE $ stringL $ dir </> filename)
+
+iviScriptsDirrectory :: FilePath
+iviScriptsDirectory = iviSrcDirectory </> "Scripts"
