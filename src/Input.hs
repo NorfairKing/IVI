@@ -1,3 +1,4 @@
+
 module Input where
 
 import System.IO (stdout, stdin, hFlush, hSetEcho, hGetEcho)
@@ -11,10 +12,10 @@ promptLine str = do
     answer <- getLine
     return answer
 
-promptInteger :: String -> IO Integer
-promptInteger str = do
+promptNum :: (Num a, Read a) => String -> IO a
+promptNum str = do
     ans <- promptLine str
-    let num = read ans :: Integer
+    let num = read ans
     return num
 
 promptPassword :: IO String
