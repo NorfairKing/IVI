@@ -1,8 +1,7 @@
-
 module Input where
 
-import System.IO (stdout, stdin, hFlush, hSetEcho, hGetEcho)
-import Control.Exception (bracket_)
+import           Control.Exception (bracket_)
+import           System.IO         (hFlush, hGetEcho, hSetEcho, stdin, stdout)
 
 
 promptLine :: String -> IO String
@@ -28,12 +27,12 @@ promptSilently str = do
 
 getSilentLine :: IO String
 getSilentLine = do
-  hFlush stdout
-  pass <- withEcho False getLine
-  putChar '\n'
-  return pass
+    hFlush stdout
+    pass <- withEcho False getLine
+    putChar '\n'
+    return pass
 
 withEcho :: Bool -> IO a -> IO a
 withEcho echo action = do
-  old <- hGetEcho stdin
-  bracket_ (hSetEcho stdin echo) (hSetEcho stdin old) action
+    old <- hGetEcho stdin
+    bracket_ (hSetEcho stdin echo) (hSetEcho stdin old) action

@@ -10,14 +10,14 @@ module Script (
     ) where
 
 -- | IVI script arguments
-data IVIScriptArgs = 
-    -- | Script arguments consist of the raw command (currently) 
+data IVIScriptArgs =
+    -- | Script arguments consist of the raw command (currently)
     Args
     String -- Raw command
     deriving (Show)
 
 -- | IVI script
-data IVIScript = 
+data IVIScript =
     -- | Scripts consist of their name, the function to enter and the regexes to match
     Script
         String -- Script name

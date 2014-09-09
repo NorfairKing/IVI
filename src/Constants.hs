@@ -14,11 +14,12 @@ module Constants (
     , iviSrcDirectory
     ) where
 
-import System.Directory (getHomeDirectory, getCurrentDirectory)
-import System.FilePath ((</>), takeDirectory)
+import           System.Directory    (getCurrentDirectory, getHomeDirectory)
+import           System.FilePath     (takeDirectory, (</>))
 --import System.FilePath.Posix ((</>))
-import Data.Functor ((<$>))
-import Language.Haskell.TH (runIO, location, stringL, litE, loc_filename)
+import           Data.Functor        ((<$>))
+import           Language.Haskell.TH (litE, loc_filename, location, runIO,
+                                      stringL)
 
 iviName, iviExtension, iviDirName :: String
 
@@ -42,7 +43,7 @@ iviRootDirectory = takeDirectory iviSrcDirectory
 
 -- | The absolute path to the source directory of ivi code
 iviSrcDirectory :: FilePath
-iviSrcDirectory = takeDirectory $(do 
+iviSrcDirectory = takeDirectory $(do
     dir <- runIO getCurrentDirectory
     filename <- loc_filename <$> location
     litE $ stringL $ dir </> filename)

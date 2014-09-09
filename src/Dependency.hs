@@ -1,6 +1,6 @@
 module Dependency where
 
-import System.Directory (findExecutable)
+import           System.Directory (findExecutable)
 
 type Dependency = String -- Name
 

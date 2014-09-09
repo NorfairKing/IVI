@@ -1,7 +1,7 @@
 module Speech where
 
-import Dependency (withDependencies)
-import System.Process (runCommand, waitForProcess)
+import           Dependency     (withDependencies)
+import           System.Process (runCommand, waitForProcess)
 
 say :: String -> IO ()
 say str = withDependencies [playBin, generationBin] go

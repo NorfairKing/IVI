@@ -11,27 +11,27 @@ module Main (
     , executeScript
     ) where
 
-import Data.List (find)
-import Data.Maybe (isJust)
-import System.Environment (getArgs)
-import System.Exit (exitSuccess,exitFailure)
-import Text.Regex.Posix ((=~))
+import           Data.List           (find)
+import           Data.Maybe          (isJust)
+import           System.Environment  (getArgs)
+import           System.Exit         (exitFailure, exitSuccess)
+import           Text.Regex.Posix    ((=~))
 
-import Script
-import Scripts.ScriptsList (scripts)
+import           Script
+import           Scripts.ScriptsList (scripts)
 
 -- | Run IVI
 main :: IO ()
-main = do    
-    args <- getArgs         
+main = do
+    args <- getArgs
     -- Try to make out which script is meant.
     case recognize args of
-    
+
         -- Do nothing when no command is recognised.
         Nothing -> do
             putStrLn "Command not recognized."
             exitFailure
-            
+
         -- Run the script that is recognised.
         Just name -> do
             let scrargs = Args $ unwords args
